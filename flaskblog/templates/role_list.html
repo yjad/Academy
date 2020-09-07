@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% from "macros.html" import confirm_delete %}
+{% block content %}
+    <div class="page-header">
+        <h1>Roles</h1>
+         <!-- a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.add_role') }}">New</a> -->
+         <a class="btn btn-secondary " href="{{ url_for('users.add_role') }}">New</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Description</th>
+                    <th>Role Admin?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for role in role_list %}
+                    <tr>
+                        <td> <a href="{{ url_for('users.edit_role', role_id = role.id) }}">{{ role.name }}</a></td>
+                        <td>{{ role.description }}</td>
+                        <td>{{ role.is_admin }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

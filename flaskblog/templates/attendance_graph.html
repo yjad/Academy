@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h2 class="article-title"> Attendees by Meeting Date</h2>
+    <article class="media content-section">
+        <img src="{{ url_for('static', filename='out/' + image) }}">
+    </article>
+
+ {% endblock content %}

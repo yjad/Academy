@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% from "macros.html" import confirm_delete %}
+{% block content %}
+    <div class="page-header">
+        <h1>Users</h1>
+         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.add_role') }}">New</a>
+         <a class="btn btn-secondary " href="{{ url_for('users.add_user') }}">Add User</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Login Name</th>
+                    <th>User Name</th>
+                    <th>email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_list.items %}
+                    <tr>
+                        <td> <a href="{{ url_for('users.edit_user', user_id = user.id) }}">{{ user.login_name }}</a></td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.user_role.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% for page_num in user_list.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if user_list.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for ('users.user_list', page=page_num) }}"> {{ page_num }} </a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for ('users.user_list', page=page_num) }}"> {{ page_num }} </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}

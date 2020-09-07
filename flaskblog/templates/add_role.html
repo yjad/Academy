@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% from "macros.html" import render_field, render_checkbox %}
+{% block content %}
+    <div class="content-section">
+        <div class="content-section">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4"> {{ legend }} </legend>
+                    {{ render_field(form.name) }}
+                    {{ render_field(form.description) }}
+                    {{ render_checkbox(form.is_admin) }}
+                </fieldset>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% from "macros.html" import render_field, render_checkbox %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Log In</legend>
+                {{render_field(form.login_name) }}
+                {{render_field(form.password) }}
+                {{render_checkbox(form.remember) }}
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+                <small class="text-muted ml-2">
+                    <a href=" {{ url_for('users.reset_request') }}">Forgot Password?</a>
+                </small>
+            </div>
+        </form>
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Need An Account? <a class="ml-2" href="#">Sign Up Now</a>
+        </small>
+    </div>
+{% endblock content %}

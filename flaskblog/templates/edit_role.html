@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% from "macros.html" import render_field, render_checkbox, confirm_delete %}
+{% block content %}
+    <div class="content-section">
+        <div class="content-section">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">{{title}}</legend>
+                    {{ render_field(form.name) }}
+                    {{ render_field(form.description) }}
+                    {{ render_checkbox(form.is_admin) }}
+                </fieldset>
+                <div class="form-group">
+                         {{ form.submit(class="btn btn-outline-info") }}
+                        <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    {{ confirm_delete(role.name, url_for('users.delete_role', role_id=role.id)) }}
+{% endblock content %}
