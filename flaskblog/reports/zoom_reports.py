@@ -117,7 +117,7 @@ def stats_attendees_graph(file_name):
     bars2 = []
     names = []
     for row in rows:
-        names.append(row[0])
-        bars1.append(row[4])
-        bars2.append(row[5])
+        names.append(row[0])    # meeting date
+        bars1.append(row[4])    # count (first name) --> Academy students
+        bars2.append(row[5])    # External Students
     plot_stacked_bar(bars1, bars2, names, file_name)
