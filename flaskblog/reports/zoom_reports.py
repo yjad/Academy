@@ -99,7 +99,7 @@ def update_meetings():
 
 
 def stats_attendees_graph(file_name):
-    update_meetings()
+    #update_meetings()
     sql = f"""SELECT meeting_date, meeting_type, topic, COUNT(name), COUNT(firstname), COUNT(name) - COUNT(firstname) 
                     FROM (
                         SELECT DATE(join_time) as meeting_date, type as meeting_type, topic,  name, firstname
