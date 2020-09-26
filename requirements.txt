@@ -1,0 +1,13 @@
+Flask
+Flask-SQLAlchemy
+flask-bcrypt
+flask-login
+flask-mail
+itsdangerous
+flask-wtf
+email-validator
+Pillow
+numpy
+matplotlib
+pandas
+requests

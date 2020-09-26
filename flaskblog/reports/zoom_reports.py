@@ -8,19 +8,22 @@ from flaskblog.reports.DB import exec_query, get_last_meeting_date, get_col_name
 from flaskblog.reports.zoom import load_zoom_meetings
 
 
-def query_to_excel(cmd, file_name, header=None):
+def query_to_excel(sql, file_name, header=None):
     #conn, cursor = open_db()
-    rows = exec_query(cmd)
+    rows = exec_query(sql)
     #close_db(cursor)
 
     if not header:
-        header = get_col_names(cmd)
+        header = get_col_names(sql)
 
     wb = Workbook()
     ws = wb.active
     ws.append(header)
 
+    print("******* Len or rows:")
+    print("******, rows:", rows)
     for row in rows:
+        print ("**********", row)
         ws.append(row)
     wb.save(file_name)
 
@@ -113,11 +116,12 @@ def stats_attendees_graph(file_name):
     #comm, curspr = open_db()
     rows = exec_query(sql)
     #close_db(curspr)
-    bars1=[]
+    bars1 = []
     bars2 = []
     names = []
     for row in rows:
         names.append(row[0])    # meeting date
         bars1.append(row[4])    # count (first name) --> Academy students
         bars2.append(row[5])    # External Students
+
     plot_stacked_bar(bars1, bars2, names, file_name)

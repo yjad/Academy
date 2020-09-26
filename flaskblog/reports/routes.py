@@ -2,8 +2,8 @@ from flask import render_template, request, Blueprint, url_for
 from flask_login import login_required
 from flaskblog.models import Post
 from flaskblog.reports.zoom_reports import stats_attendees_graph, update_meetings
-
-IMAGE_DIR= r"C:\Yahia\Home\Yahia-Dev\Python\Academy\flaskblog\static\out"
+from flaskblog.config import Config
+import os
 
 reports = Blueprint('reports', __name__)
 
@@ -12,9 +12,11 @@ reports = Blueprint('reports', __name__)
 @login_required
 def attendance_graph():
 
-    filename = IMAGE_DIR+ r"\attendess by date.png"
+    image_name = "attendess_by_date.png"
+    filename = os.path.join(Config.IMAGE_DIR, image_name)
     stats_attendees_graph(filename)
-    return render_template('attendance_graph.html', image="attendess by date.png")
+    return render_template('attendance_graph.html', image=image_name)
+
 
 @reports.route("/reports/load_meetings_data")
 @login_required

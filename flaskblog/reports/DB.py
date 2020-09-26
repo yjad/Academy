@@ -74,7 +74,7 @@ def insert_row_attendees(rec):
 
 
 def exec_query(cmd):
-    rows = db.engine.execute(cmd)
+    rows = db.engine.execute(text(cmd))
     #rows = db.engine.fetchall()
     return rows
 
@@ -84,14 +84,16 @@ def get_last_meeting_date():
     rows = db.engine.execute('SELECT start_time from meetings order by start_time DESC LIMIT 1')
     #rows = db.engine.fetchall()
     #close_db(cursor)
-    for r in rows:
-        print (r)
-        print (r[0])
-        print (r[0][:10])
-        return r[0][:10]
+    # for r in rows:
+    #     print (r)
+    #     print (r[0])
+    #     print (r[0][:10])
+    #     return r[0][:10]
 
 
 def get_col_names(sql):
     get_column_names = db.engine.execute(sql + " limit 1")
+    print(get_column_names)
     col_name = [i[0] for i in get_column_names.description]
+    print ("----------------->", col_name)
     return col_name
