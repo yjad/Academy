@@ -1,9 +1,8 @@
 #libraries
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import rc
-import pandas as pd
-
 
 def plot_stacked_bar(bars1, bars2, names, file_name):
     # y-axis in bold

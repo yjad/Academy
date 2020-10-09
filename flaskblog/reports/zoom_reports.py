@@ -119,6 +119,7 @@ def stats_attendees_graph(file_name):
     bars1 = []
     bars2 = []
     names = []
+    
     for row in rows:
         names.append(row[0])    # meeting date
         bars1.append(row[4])    # count (first name) --> Academy students
