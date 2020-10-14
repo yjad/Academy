@@ -8,22 +8,19 @@ from flaskblog.reports.DB import exec_query, get_last_meeting_date, get_col_name
 from flaskblog.reports.zoom import load_zoom_meetings
 
 
-def query_to_excel(sql, file_name, header=None):
+def query_to_excel(cmd, file_name, header=None):
     #conn, cursor = open_db()
-    rows = exec_query(sql)
+    rows = exec_query(cmd)
     #close_db(cursor)
 
     if not header:
-        header = get_col_names(sql)
+        header = get_col_names(cmd)
 
     wb = Workbook()
     ws = wb.active
     ws.append(header)
 
-    print("******* Len or rows:")
-    print("******, rows:", rows)
     for row in rows:
-        print ("**********", row)
         ws.append(row)
     wb.save(file_name)
 
@@ -101,28 +98,56 @@ def update_meetings():
     load_zoom_meetings(last_meeting)
 
 
-def stats_attendees_graph(file_name):
+def attendees_per_month(file_name):
     #update_meetings()
-    sql = f"""SELECT meeting_date, meeting_type, topic, COUNT(name), COUNT(firstname), COUNT(name) - COUNT(firstname) 
+    sql = f"""SELECT substr(meeting_date,1,7) as meeting_month, COUNT(name), COUNT(firstname), COUNT(name) - COUNT(firstname) 
                     FROM (
-                        SELECT DATE(join_time) as meeting_date, type as meeting_type, topic,  name, firstname
+                        SELECT DATE(join_time) as meeting_date,  name, firstname
                         FROM attendees a 
                         LEFT Join student ON a.user_email = student.email
                         LEFT Join meetings m ON a.meeting_uuid = m.uuid
                         GROUP BY meeting_date, name 
                         )
-                    GROUP BY meeting_date
-                    ORDER BY 1, 2, 3"""
+                    GROUP BY meeting_month
+                    ORDER BY 1"""
     #comm, curspr = open_db()
     rows = exec_query(sql)
     #close_db(curspr)
-    bars1 = []
+    bars1=[]
     bars2 = []
     names = []
-    
+
+    # plot last n lines
     for row in rows:
         names.append(row[0])    # meeting date
-        bars1.append(row[4])    # count (first name) --> Academy students
-        bars2.append(row[5])    # External Students
+        bars1.append(row[1])    # count (first name) --> Academy students
+        bars2.append(row[3])    # External Students
+    plot_stacked_bar(bars1, bars2, names, file_name)
 
+
+def attendees_last_2_month(file_name):
+    #update_meetings()
+    sql = f"""SELECT meeting_date, COUNT(name), COUNT(firstname), COUNT(name) - COUNT(firstname) 
+                    FROM (
+                        SELECT DATE(join_time) as meeting_date, type as meeting_type, topic,  name, firstname
+                        FROM attendees a 
+                        LEFT Join student ON a.user_email = student.email
+                        LEFT Join meetings m ON a.meeting_uuid = m.uuid
+                        WHERE DATE(join_time) > DATE('now', '-2 Month')
+                        GROUP BY meeting_date, name 
+                        )
+                    GROUP BY meeting_date
+                    ORDER BY 1"""
+    #comm, curspr = open_db()
+    rows = exec_query(sql)
+    #close_db(curspr)
+    bars1=[]
+    bars2 = []
+    names = []
+
+    # plot last n lines
+    for row in rows:
+        names.append(row[0])    # meeting date
+        bars1.append(row[1])    # count (first name) --> Academy students
+        bars2.append(row[3])    # External Students
     plot_stacked_bar(bars1, bars2, names, file_name)

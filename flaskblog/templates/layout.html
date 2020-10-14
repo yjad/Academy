@@ -46,7 +46,8 @@
                                 Reports
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                              <a class="dropdown-item" href="{{ url_for('reports.attendance_graph') }}">Attendees graph</a>
+                              <a class="dropdown-item" href="{{ url_for('reports.attendance_last_2_month') }}">Attendance Last 2 Month</a>
+                              <a class="dropdown-item" href="{{ url_for('reports.attendance_per_month') }}">Attendance Per Month</a>
                               <a class="dropdown-item" href="{{ url_for('reports.load_meetings_data') }}">Load Zoom meetings</a>
                             </div>
                         </div>

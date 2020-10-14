@@ -1,10 +1,13 @@
 #libraries
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import rc
+import pandas as pd
+
 
 def plot_stacked_bar(bars1, bars2, names, file_name):
+
+    print ("lengths: ", len(bars1), len(bars2), len(names))
     # y-axis in bold
     rc('font', weight='bold')
 
@@ -22,7 +25,10 @@ def plot_stacked_bar(bars1, bars2, names, file_name):
     r = [i for i in range  (0,len(bars1))]
     # Names of group and bar width
     #names = ['A','B','C','D','E']
-    barWidth = 1
+    if len(bars1) < 10:
+        barWidth = 1
+    else:
+        barWidth = 1
 
     # Create brown bars
     plt.bar(r, bars1, color='#7f6d5f', edgecolor='white', width=barWidth, label= 'Academy Students')
