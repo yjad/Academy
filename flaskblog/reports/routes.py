@@ -1,9 +1,10 @@
-from flask import render_template, request, Blueprint, url_for
+from flask import render_template, request, Blueprint, url_for, Flask
 from flask_login import login_required
 from flaskblog.models import Post
 from flaskblog.reports.zoom_reports import attendees_last_2_month, update_meetings, attendees_per_month
+import os
 
-IMAGE_DIR= r"C:\Yahia\Home\Yahia-Dev\Python\Academy\flaskblog\static\out"
+
 
 reports = Blueprint('reports', __name__)
 
@@ -12,9 +13,12 @@ reports = Blueprint('reports', __name__)
 @login_required
 def attendance_last_2_month():
 
-    filename = IMAGE_DIR+ r"\attendess_2.png"
-    attendees_last_2_month(filename)
-    return render_template('attendance_graph.html', image="attendess_2.png", title="Attendance last 2 Month")
+    #IMAGE_DIR= r"C:\Yahia\Home\Yahia-Dev\Python\Academy\flaskblog\static\out"
+    IMAGE_DIR= os.path.join(os.path.dirname(__file__)[:-8], 'static','out')
+    image_name = 'attendess_2.png'
+    filename = os.path.join(IMAGE_DIR, image_name)
+    #attendees_last_2_month(filename)
+    return render_template('attendance_graph.html', image=image_name, title="Attendance last 2 Month")
 
     # legend = 'Monthly Data'
     # labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
@@ -39,9 +43,11 @@ def attendance_last_2_month():
 @login_required
 def attendance_per_month():
 
-    filename = IMAGE_DIR+ r"\attendess_month.png"
+    IMAGE_DIR= os.path.join(os.path.dirname(__file__)[:-8], 'static','out')
+    image_name = 'attendess_month.png'
+    filename = os.path.join(IMAGE_DIR, image_name)
     attendees_per_month(filename)
-    return render_template('attendance_graph.html', image="attendess_month.png", title="Attendance per Month")
+    return render_template('attendance_graph.html', image=image_name, title="Attendance per Month")
 
 @reports.route("/reports/load_meetings_data")
 @login_required
